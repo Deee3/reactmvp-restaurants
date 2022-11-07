@@ -1,8 +1,9 @@
 import axios from "axios";
 const URL = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary'
 
-// test console response.data first then
-//Paste this in try block: const { data: { data } } = await axios.get(URL, options);
+
+
+
 
 //this const options gives us hardcoded Restaurant Info in VN
 //To use the bounds.ne/sw from our Map.js -=---> on change App.js
@@ -19,6 +20,8 @@ const URL = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary'
 //       'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
 //     }
 //   };//we just moved this into our the second options parameter of our axios.get request
+
+//these params are set by api, 
 
 export const getPlacesData = async (sw, ne) => {
     try {
@@ -37,7 +40,6 @@ export const getPlacesData = async (sw, ne) => {
             'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
           }
         });
-        //try consolelog response data but will use 
         return data;
     }
     catch (error) {

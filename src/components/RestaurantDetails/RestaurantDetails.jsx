@@ -1,5 +1,8 @@
 import React from 'react';
 
+//File where we biuld the cards out
+
+
 /*Our place prop is being passsed in with data because of our useEffect in App.js
 App.js/ useEffect calls our getPlacesData() from our api.js
 getPlacesData is an async function that uses axios.get request to pull data of all restaurants
@@ -7,16 +10,22 @@ in the ne/sw bounds of the map
 */
 
 //need to import more from material ui to make the card look ok
-import { Box, Typography, Button, Card, CardMedia, CardContent, CardAction, Chip } from '@material-ui/core';
+import { Box, Typography, Button, Card, CardMedia, CardContent, CardAction, Chip, CardActions } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import PhoneIcon from '@material-ui/icons/Phone'
 import Rating from '@material-ui/lab/Rating'
 
+//building out my Bookmark Component
+
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import IconButton from '@material-ui/core/IconButton';
+//https://flatlogic.com/blog/material-ui-icons-in-react/
 import useStyles from './styles';
 
 
 
-const RestaurantDetails = ({ place }) => {
+const RestaurantDetails = ({ place, setBookmarkClicked, bookmarkClicked, favoritesList, setFavoritesList }) => {
     const classes = useStyles();
 
     /*//////////////////////////Notes on the Card props and what they do:
@@ -56,7 +65,8 @@ const RestaurantDetails = ({ place }) => {
         </Typography>
     )}    if place.address exists then return this typography
 
-
+    <Button size="small" color="primary" onClick={() => window.open(place.website, '_blank')}>
+    second param of onClick is to open in a new tab    
        ///////////////////////////////*/
 
 
@@ -64,7 +74,35 @@ const RestaurantDetails = ({ place }) => {
 
 
 
-        <Card elevation={6}>
+        <Card elevation={6} >
+            <CardContent>
+                <Box display="flex" justifyContent="space-between">
+                    <Typography variant="h5" gutterBottom> {place.name}</Typography>
+
+                    <Typography >
+
+                        {(bookmarkClicked === false
+                            ?
+                            <Button
+                                color="action" size="large" startIcon={<BookmarkAddIcon />}
+                                onClick={() => { setBookmarkClicked(!bookmarkClicked) }}
+                            >
+                                Add To Favorites
+                            </Button>
+                            :
+                            <Button
+                                color="action" size="large" startIcon={<BookmarkAddedIcon />}
+                                onClick={() => { setBookmarkClicked(!bookmarkClicked) }}
+                            >
+                                Remove From Favorites
+                            </Button>
+                        )}
+
+                    </Typography>
+
+                </Box>
+            </CardContent>
+
             <CardMedia
                 component='img'
                 style={{ height: 350 }}
@@ -80,6 +118,11 @@ const RestaurantDetails = ({ place }) => {
                 <Box display="flex" justifyContent="space-between">
                     <Typography variant="subtitle1">Price</Typography>
                     <Typography variant="subtitle1" gutterBottom>{place.price_level}</Typography>
+                </Box>
+
+                <Box display="flex" justifyContent="space-between">
+                    <Rating value={Number(place.rating)} readOnly />
+                    <Typography variant="subtitle1" gutterBottom>Out of {place.num_reviews} Reviews</Typography>
                 </Box>
 
                 <Box display="flex" justifyContent="space-between">
@@ -102,13 +145,18 @@ const RestaurantDetails = ({ place }) => {
                         <PhoneIcon /> {place.phone}
                     </Typography>
                 )}
+
+                <CardActions>
+                    <Button size="small" color="primary" onClick={() => window.open(place.web_url, '_blank')}>
+                        Trip Advisor Site
+                    </Button>
+                    <Button size="small" color="primary" onClick={() => window.open(place.website, '_blank')}>
+                        Restaurant's Website
+                    </Button>
+                </CardActions>
             </CardContent>
-
         </Card>
-
-
     );
-
-}
+};
 
 export default RestaurantDetails;

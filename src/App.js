@@ -23,7 +23,13 @@ const App = () => {
     const [places, setPlaces] = useState([]);
     const [coordinates,setCoordinates] = useState({lat: 33.77209421050259 , lng: -84.38946016044085});
     const [bounds,setBounds] = useState( {ne:{lat:33.95454822603392, lng:-84.05128724784319}, sw:{lat:33.58925082294, lng:-84.7276330730385}} );
-
+    
+    //hook to add items to a favorites list
+    const [favoritesList, setfavoritesList] = useState([]);
+    // pass this into <List /> then into <RestaurantDetails />
+    const [bookmarkClicked, setBookmarkClicked] = useState(false);
+    
+    console.log("bookmarkClicked", bookmarkClicked)
     //Syntax that will take in this useState, object of keys with values of objects const [bounds,setBounds] = useState( {ne:{lat:33.837781674693105, lng:-84.19507144608393}, sw:{lat:33.65507825555835, lng:-84.53736423172846}} ); 
 
     //on start of app, this useEffect does a GET request for restuarant data
@@ -71,6 +77,16 @@ const App = () => {
     //pass coordinates var because map wll be using this
     // this way when we pull map data we need from the map position we can set state 
     //to search for the appropriate RestaurantDetails
+
+    //We can send populate the restuarant on the map if we pass the places prop to 
+    //the map component
+
+    //if you are going to prop drill one level its ok to pass props via vanilla React syntax
+    //if you are to pass props more than 2levels, look into
+    //Redux or ReactContext
+
+    
+
     return (
         <>
             <CssBaseline />
@@ -80,7 +96,13 @@ const App = () => {
             <Grid container spacing={3} style={{width: '100%'}}>
                 {/*md4 means this will be the list size on md devices*/}
                 <Grid item xs={12} md={4}>
-                    <List places={places}/>
+                    <List 
+                        places={places}
+                        favoritesList={favoritesList}
+                        setfavoritesList={setfavoritesList}
+                        setBookmarkClicked={setBookmarkClicked}
+                        bookmarkClicked={bookmarkClicked}
+                    />
                 </Grid>
                 {/*this is the map*/}
                 <Grid item xs={12} md={8}>
@@ -88,6 +110,7 @@ const App = () => {
                         setCoordinates={setCoordinates}
                         setBounds={setBounds}
                         coordinates={coordinates}
+                        places={places}                      
                      />
                 </Grid>
             </Grid>

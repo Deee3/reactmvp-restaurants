@@ -16,12 +16,12 @@ const Header = () => {
         <AppBar position="static">
             <Toolbar className={classes.toolbar}>
                 <Typography variant="h5" className={classes.title}>
-                    Restuarants
+
                 </Typography>
                 {/*Box is just a div but you can put display properties*/}
                 <Box display="flex">
                     <Typography variant="h6" className={classes.title}>
-                        title1
+                        WiP
                     </Typography>
                     {/*<Autocomplete>*/}
                     <div className={classes.search}>
